@@ -1,3 +1,3 @@
 # customers-service
 
-Mocks a service to maintain customers
+Mocks a service to maintain customers.
