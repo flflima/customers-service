@@ -1,0 +1,7 @@
+{
+  "testRegex": "\\.e2e-spec\\.js$",
+  "testEnvironment": "node",
+  "coveragePathIgnorePatterns": [
+    "/node_modules/"
+  ]
+}

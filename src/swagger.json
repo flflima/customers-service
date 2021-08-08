@@ -1,0 +1,168 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Customer Service",
+    "description": "An imaginary customer service",
+    "version": "0.0.1"
+  },
+  "tags": [{
+    "name": "customer",
+    "description": "Operations in a customer"
+  }],
+  "paths": {
+    "/customers": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Creates a new customer",
+        "operationId": "postCarts",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCustomer"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Customer created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid data was received",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "E-mail already registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmailAlreadyRegisteredError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Customer already exists or any error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateCustomer": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "The customer name",
+            "type": "string",
+            "example": "John Doe"
+          },
+          "cpf": {
+            "description": "The customer cpf",
+            "type": "string",
+            "example": "99999999999"
+          },
+          "email": {
+            "description": "The customer email",
+            "type": "string",
+            "example": "johndoe@mail.com"
+          }
+        }
+      },
+      "CustomerResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "description": "The status of the operation",
+            "type": "string",
+            "example": "Success"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Customer",
+            "description": "The customer email"
+          }
+        }
+      },
+      "Customer": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "The customer ID",
+            "type": "number",
+            "example": 1
+          },
+          "email": {
+            "description": "The customer email",
+            "type": "string",
+            "example": "johndoe@mail.com"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "description": "The status of the operation",
+            "type": "string",
+            "example": "An error occurred"
+          },
+          "errors": {
+            "description": "The list of errors",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "An error occurred"
+            ]
+          }
+        }
+      },
+      "EmailAlreadyRegisteredError": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "description": "The status of the operation",
+            "type": "string",
+            "example": "Error"
+          },
+          "errors": {
+            "description": "The list of errors",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "E-mail already registered"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
