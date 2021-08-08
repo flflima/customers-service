@@ -16,7 +16,7 @@
           "customer"
         ],
         "summary": "Creates a new customer",
-        "operationId": "postCarts",
+        "operationId": "postCustomers",
         "requestBody": {
           "content": {
             "application/json": {
