@@ -76,6 +76,11 @@
     "schemas": {
       "CreateCustomer": {
         "type": "object",
+        "required": [
+          "name",
+          "cpf",
+          "email"
+        ],
         "properties": {
           "name": {
             "description": "The customer name",

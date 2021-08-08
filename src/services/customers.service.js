@@ -1,3 +1,4 @@
+const logger = require('../config/logger');
 const CustomerAlreadyExistsException = require('../exceptions/customer-already-exists.exception');
 const {
   findCustomerByEmail,
@@ -5,7 +6,7 @@ const {
 } = require('../repositories/customer.repository');
 
 exports.createCustomer = async (customer) => {
-  console.log(
+  logger.info(
     `Checking if customer is registered with email: ${customer.email}`,
   );
 
@@ -16,7 +17,7 @@ exports.createCustomer = async (customer) => {
     );
   }
 
-  console.log(`Saving ${JSON.stringify(customer)}`);
+  logger.info(`Saving ${JSON.stringify(customer)}`);
 
   return saveCustomer({
     name: customer.name,
