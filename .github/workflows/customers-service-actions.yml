@@ -4,18 +4,34 @@ on:
     branches:
       - 'main'
 jobs:
-  coverage:
+  run-tests:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16.5.0'
+      - run: npm install
+      - run: npm run test:cov
+
+  run-coverage:
+    needs: run-tests
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
-      - uses: artiomtr/jest-coverage-report-action@v2.0-rc.1
+      - uses: actions/setup-node@v1
         with:
-          github-token: ${{ secrets.MY_GITHUB_TOKEN }}
-          test-script: npm run test:cov
-          threshold: 80
+          node-version: '16.5.0'
+      - run: npm install
+      - run: make test-coverage
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
   deploy:
-    needs: coverage
+    needs: run-coverage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
