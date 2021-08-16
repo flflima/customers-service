@@ -20,6 +20,7 @@ exports.createCostumer = async (req, res, next) => {
         });
       })
       .catch((error) => {
+        console.error(error);
         res.status(error.statusCode() || 500).json({
           status: 'Error',
           errors: [error.message],

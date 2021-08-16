@@ -1,3 +1,4 @@
+require('./kafka');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const app = require('./app');
@@ -20,8 +21,8 @@ const db = require('./db');
 })();
 
 process.on('unhandledRejection', (err) => {
-  logger.error(err.name, err.message);
-  logger.error('UNHANDLER REJECTION! Shutting down...');
+  console.error(err.name, err.message);
+  console.error('UNHANDLER REJECTION! Shutting down...');
   app.close(() => {
     process.exit(1);
   });

@@ -1,9 +1,11 @@
+const { producer } = require('../kafka');
 const logger = require('../config/logger');
 const CustomerAlreadyExistsException = require('../exceptions/customer-already-exists.exception');
 const {
   findCustomerByEmail,
   saveCustomer,
 } = require('../repositories/customer.repository');
+const { PENDING_TOPIC } = require('../constants');
 
 exports.createCustomer = async (customer) => {
   logger.info(
@@ -19,9 +21,20 @@ exports.createCustomer = async (customer) => {
 
   logger.info(`Saving ${JSON.stringify(customer)}`);
 
-  return saveCustomer({
+  const newCustomer = saveCustomer({
     name: customer.name,
     cpf: customer.cpf,
     email: customer.email,
   });
+
+  // FIXME: mock
+  producer.send(
+    [{ topic: PENDING_TOPIC, messages: newCustomer }],
+    (error, data) => {
+      console.log(data);
+      console.error(error);
+    },
+  );
+
+  return newCustomer;
 };
