@@ -21,7 +21,7 @@ exports.createCustomer = async (customer) => {
 
   logger.info(`Saving ${JSON.stringify(customer)}`);
 
-  const newCustomer = saveCustomer({
+  const newCustomer = await saveCustomer({
     name: customer.name,
     cpf: customer.cpf,
     email: customer.email,
@@ -29,7 +29,12 @@ exports.createCustomer = async (customer) => {
 
   // FIXME: mock
   producer.send(
-    [{ topic: PENDING_TOPIC, messages: newCustomer }],
+    [
+      {
+        topic: PENDING_TOPIC,
+        messages: `{ "name": "${newCustomer.name}", "cpf": "${newCustomer.cpf}" }`,
+      },
+    ],
     (error, data) => {
       console.log(data);
       console.error(error);
