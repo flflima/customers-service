@@ -14,6 +14,11 @@ const Customer = database.define('customer', {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  approved: {
+    type: DataTypes.BOOLEAN,
+    allowNull: true,
+    default: false,
+  },
 });
 
 module.exports = Customer;

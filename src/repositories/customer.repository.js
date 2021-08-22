@@ -6,10 +6,23 @@ exports.saveCustomer = async (customer) => {
   return entity;
 };
 
+exports.updateCustomerStatus = async (approved, cpf) => {
+  await Customer.update({ approved: approved }, { where: { cpf: cpf } });
+};
+
 exports.findCustomerByEmail = async (email) => {
   const entity = await Customer.findOne({
     where: {
       email: email,
+    },
+  });
+  return entity;
+};
+
+exports.findCustomerByCpf = async (cpf) => {
+  const entity = await Customer.findOne({
+    where: {
+      cpf: cpf,
     },
   });
   return entity;
